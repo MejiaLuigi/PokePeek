@@ -19,12 +19,12 @@ const ModoLight = require("./../assets/ModoLight.png");
 export function Search({ navigation }: MainStackScreenProps<"Search">) {
   const [text, setText] = useState("");
   const { data, isLoading, error } = useQuery({
-    queryKey: ["pokemon", text], 
+    queryKey: ["pokemon", text],
     queryFn: () =>
       text
         ? fetchSearchPokemon(text.toLowerCase())
         : Promise.resolve(undefined),
-    enabled: !!text, 
+    enabled: !!text,
   });
 
   useEffect(() => {
@@ -36,21 +36,20 @@ export function Search({ navigation }: MainStackScreenProps<"Search">) {
     }
   }, [data]);
 
-  const { theme } = useTheme(); 
-  const backgroundImage = theme === "dark" ? ModoDark : ModoLight; 
-
+  const { theme } = useTheme();
+  const backgroundImage = theme === "dark" ? ModoDark : ModoLight;
 
   const errorMessage =
     error && typeof error === "object" ? (error as any).status : null;
   const errorText =
     error && typeof error === "object" ? (error as any).message : null;
 
-
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.content}>
         <View style={styles.searchContainer}>
           <TextInput
+            testID="search-input"
             style={styles.searchInput}
             placeholder="Escribe aquí..."
             placeholderTextColor="#aaa"
@@ -58,6 +57,7 @@ export function Search({ navigation }: MainStackScreenProps<"Search">) {
             returnKeyType="search"
           />
           <MaterialIcons
+            testID="search-icon"
             name="search"
             size={20}
             color="#aaa"
@@ -66,7 +66,13 @@ export function Search({ navigation }: MainStackScreenProps<"Search">) {
         </View>
       </View>
       <View style={styles.contentError}>
-        {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
+        {isLoading && (
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            testID="loading-indicator"
+          />
+        )}
         {!!error && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorTitle}>OOPS!</Text>
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   searchContainer: {
-    flexDirection: "row", 
+    flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 20,
@@ -116,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   icon: {
-    margin: 10, 
+    margin: 10,
   },
   contentError: {
     flex: 1,

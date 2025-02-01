@@ -65,7 +65,7 @@ export function Home() {
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
       <SafeAreaView style={styles.safeContainer}>
-        <View style={styles.header}>
+        <View testID="home-container" style={styles.header}>
           <Image
             source={theme === "dark" ? LogoDark : LogoLight}
             style={styles.logo}
